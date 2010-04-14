@@ -1,1 +1,4 @@
-libweb - A tiny, portable and fast library for handling HTTP requests
+= libweb 
+
+Libweb is a tiny, portable and fast library for handling HTTP requests. 
+It's written in C as backbone for any tool that needs to perform GETs, POSTs and other HTTP calls.
