@@ -743,6 +743,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
+ac_func_list=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
@@ -1857,6 +1858,99 @@ $as_echo "$ac_res" >&6; }
 
 } @%:@ ac_fn_c_check_func
 
+@%:@ ac_fn_c_check_header_mongrel LINENO HEADER VAR INCLUDES
+@%:@ -------------------------------------------------------
+@%:@ Tests whether HEADER exists, giving a warning if it cannot be compiled using
+@%:@ the include files in INCLUDES and setting the cache variable VAR
+@%:@ accordingly.
+ac_fn_c_check_header_mongrel ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  if { as_var=$3; eval "test \"\${$as_var+set}\" = set"; }; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
+$as_echo_n "checking for $2... " >&6; }
+if { as_var=$3; eval "test \"\${$as_var+set}\" = set"; }; then :
+  $as_echo_n "(cached) " >&6
+fi
+eval ac_res=\$$3
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+else
+  # Is the header compilable?
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 usability" >&5
+$as_echo_n "checking $2 usability... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+$4
+@%:@include <$2>
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_header_compiler=yes
+else
+  ac_header_compiler=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_compiler" >&5
+$as_echo "$ac_header_compiler" >&6; }
+
+# Is the header present?
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 presence" >&5
+$as_echo_n "checking $2 presence... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+@%:@include <$2>
+_ACEOF
+if ac_fn_c_try_cpp "$LINENO"; then :
+  ac_header_preproc=yes
+else
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_preproc" >&5
+$as_echo "$ac_header_preproc" >&6; }
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in #((
+  yes:no: )
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&5
+$as_echo "$as_me: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
+$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
+    ;;
+  no:yes:* )
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: present but cannot be compiled" >&5
+$as_echo "$as_me: WARNING: $2: present but cannot be compiled" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     check for missing prerequisite headers?" >&5
+$as_echo "$as_me: WARNING: $2:     check for missing prerequisite headers?" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: see the Autoconf documentation" >&5
+$as_echo "$as_me: WARNING: $2: see the Autoconf documentation" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&5
+$as_echo "$as_me: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
+$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
+( cat <<\_ASBOX
+## ------------------------------------ ##
+## Report this to paolo@armoredcode.com ##
+## ------------------------------------ ##
+_ASBOX
+     ) | sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
+$as_echo_n "checking for $2... " >&6; }
+if { as_var=$3; eval "test \"\${$as_var+set}\" = set"; }; then :
+  $as_echo_n "(cached) " >&6
+else
+  eval "$3=\$ac_header_compiler"
+fi
+eval ac_res=\$$3
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+fi
+  eval $as_lineno_stack; test "x$as_lineno_stack" = x && { as_lineno=; unset as_lineno;}
+
+} @%:@ ac_fn_c_check_header_mongrel
+
 @%:@ ac_fn_c_check_type LINENO TYPE VAR INCLUDES
 @%:@ -------------------------------------------
 @%:@ Tests whether TYPE exists after having included INCLUDES, setting cache
@@ -2193,6 +2287,14 @@ $as_echo "$as_me: creating cache $cache_file" >&6;}
   >$cache_file
 fi
 
+as_fn_append ac_func_list " inet_aton"
+as_fn_append ac_func_list " connect"
+as_fn_append ac_func_list " strstr"
+as_fn_append ac_func_list " gethostbyname"
+as_fn_append ac_func_list " memset"
+as_fn_append ac_func_list " select"
+as_fn_append ac_func_list " socket"
+as_fn_append ac_func_list " strerror"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -2763,9 +2865,6 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
-ac_config_headers="$ac_config_headers config.h"
-
-ac_config_files="$ac_config_files Makefile"
 
 
 
@@ -10364,6 +10463,19 @@ CC="$lt_save_CC"
 # Checks for libraries.
 
 # Checks for header files.
+for ac_header in netdb.h errno.h stdlib.h sys/socket.h string.h
+do :
+  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
+eval as_val=\$$as_ac_Header
+   if test "x$as_val" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+@%:@define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+ 
+fi
+
+done
 
 # Checks for typedefs, structures, and compiler characteristics.
 ac_fn_c_check_type "$LINENO" "size_t" "ac_cv_type_size_t" "$ac_includes_default"
@@ -10379,7 +10491,10 @@ fi
 
 
 # Checks for library functions.
-for ac_func in gethostbyname memset select socket strerror
+
+
+  
+  for ac_func in $ac_func_list
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
@@ -10392,6 +10507,27 @@ _ACEOF
 fi
 done
 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ac_config_headers="$ac_config_headers config.h"
+
+ac_config_files="$ac_config_files Makefile test/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -11358,10 +11494,11 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
-    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
-    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
+    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

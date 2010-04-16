@@ -1,0 +1,11 @@
+2010-04-15 Paolo Perego <thesp0nge@gmail.com>
+
+* test/ (none): created test directory
+* commons.c (none): created file. It will contains common use utilities.
+
+2010-04-14 Paolo Perego <thesp0nge@gmail.com>
+* get.c (none): created file. It will contain GET implementation
+* libweb.h (none): defining an http_response data structure
+* libweb.h (none): HTTP HELO sequence defined
+* libweb.c (none): added COPYING notice as header
+* libweb.c (web_helo): using HELO constant instead of local variable

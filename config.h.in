@@ -1,10 +1,19 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
+/* Define to 1 if you have the `connect' function. */
+#undef HAVE_CONNECT
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Define to 1 if you have the <errno.h> header file. */
+#undef HAVE_ERRNO_H
+
 /* Define to 1 if you have the `gethostbyname' function. */
 #undef HAVE_GETHOSTBYNAME
+
+/* Define to 1 if you have the `inet_aton' function. */
+#undef HAVE_INET_ATON
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -14,6 +23,9 @@
 
 /* Define to 1 if you have the `memset' function. */
 #undef HAVE_MEMSET
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#undef HAVE_NETDB_H
 
 /* Define to 1 if you have the `select' function. */
 #undef HAVE_SELECT
@@ -36,6 +48,12 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
+/* Define to 1 if you have the `strstr' function. */
+#undef HAVE_STRSTR
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -48,6 +66,9 @@
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #undef LT_OBJDIR
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+#undef NO_MINUS_C_MINUS_O
 
 /* Name of package */
 #undef PACKAGE

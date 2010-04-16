@@ -40,8 +40,8 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	TODO config.guess config.sub depcomp install-sh ltmain.sh \
-	missing
+	TODO compile config.guess config.sub depcomp install-sh \
+	ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -79,7 +79,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libweb_la_LIBADD =
-am_libweb_la_OBJECTS = libweb.lo
+am_libweb_la_OBJECTS = libweb.lo get.lo commons.lo
 libweb_la_OBJECTS = $(am_libweb_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_libweb_test_OBJECTS = libweb_test.$(OBJEXT)
@@ -229,7 +229,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = libweb.la
-libweb_la_SOURCES = libweb.c libweb.h
+libweb_la_SOURCES = libweb.c get.c commons.c libweb.h
 libweb_la_CCFLAGS = -shared
 libweb_test_SOURCES = libweb_test.c
 libweb_test_LDFLAGS = -lweb
@@ -375,6 +375,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/commons.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libweb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libweb_test.Po@am__quote@
 

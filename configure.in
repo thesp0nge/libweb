@@ -5,21 +5,23 @@ AC_PREREQ([2.65])
 AC_INIT([libweb], [0.10], [paolo@armoredcode.com])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_SRCDIR([libweb.c])
-AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile])
+
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 # Checks for libraries.
 
 # Checks for header files.
-
+AC_CHECK_HEADERS([netdb.h errno.h stdlib.h sys/socket.h string.h])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([gethostbyname memset select socket strerror])
+AC_CHECK_FUNCS_ONCE([inet_aton connect strstr gethostbyname memset select socket strerror])
 
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_FILES([Makefile test/Makefile])
 AC_OUTPUT
