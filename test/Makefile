@@ -34,7 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-apple-darwin10.3.0
 host_triplet = x86_64-apple-darwin10.3.0
-bin_PROGRAMS = string2url_test$(EXEEXT)
+bin_PROGRAMS = string2url_test$(EXEEXT) test_get$(EXEEXT) \
+	test_log$(EXEEXT)
 subdir = test
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -57,6 +58,18 @@ string2url_test_LDADD = $(LDADD)
 string2url_test_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(string2url_test_CFLAGS) \
 	$(CFLAGS) $(string2url_test_LDFLAGS) $(LDFLAGS) -o $@
+am_test_get_OBJECTS = test_get-test_get.$(OBJEXT)
+test_get_OBJECTS = $(am_test_get_OBJECTS)
+test_get_LDADD = $(LDADD)
+test_get_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(test_get_CFLAGS) $(CFLAGS) \
+	$(test_get_LDFLAGS) $(LDFLAGS) -o $@
+am_test_log_OBJECTS = test_log-test_log.$(OBJEXT)
+test_log_OBJECTS = $(am_test_log_OBJECTS)
+test_log_LDADD = $(LDADD)
+test_log_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(test_log_CFLAGS) $(CFLAGS) \
+	$(test_log_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -70,8 +83,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(string2url_test_SOURCES)
-DIST_SOURCES = $(string2url_test_SOURCES)
+SOURCES = $(string2url_test_SOURCES) $(test_get_SOURCES) \
+	$(test_log_SOURCES)
+DIST_SOURCES = $(string2url_test_SOURCES) $(test_get_SOURCES) \
+	$(test_log_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -92,8 +107,8 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DSYMUTIL = dsymutil
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
 EGREP = /usr/bin/grep -E
 EXEEXT = 
@@ -154,6 +169,7 @@ build_vendor = apple
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
+debug_defs = 
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
@@ -170,7 +186,7 @@ libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
-lt_ECHO = echo
+lt_ECHO = /bin/echo
 mandir = ${datarootdir}/man
 mkdir_p = $(top_builddir)/./install-sh -c -d
 oldincludedir = /usr/include
@@ -189,6 +205,12 @@ top_srcdir = ..
 string2url_test_SOURCES = string2url_test.c
 string2url_test_CFLAGS = -I..
 string2url_test_LDFLAGS = -lweb -L..
+test_get_SOURCES = test_get.c
+test_get_CFLAGS = -I..
+test_get_LDFLAGS = -lweb -L..
+test_log_SOURCES = test_log.c
+test_log_CFLAGS = -I..
+test_log_LDFLAGS = -lweb -L..
 all: all-am
 
 .SUFFIXES:
@@ -269,6 +291,12 @@ clean-binPROGRAMS:
 string2url_test$(EXEEXT): $(string2url_test_OBJECTS) $(string2url_test_DEPENDENCIES) 
 	@rm -f string2url_test$(EXEEXT)
 	$(string2url_test_LINK) $(string2url_test_OBJECTS) $(string2url_test_LDADD) $(LIBS)
+test_get$(EXEEXT): $(test_get_OBJECTS) $(test_get_DEPENDENCIES) 
+	@rm -f test_get$(EXEEXT)
+	$(test_get_LINK) $(test_get_OBJECTS) $(test_get_LDADD) $(LIBS)
+test_log$(EXEEXT): $(test_log_OBJECTS) $(test_log_DEPENDENCIES) 
+	@rm -f test_log$(EXEEXT)
+	$(test_log_LINK) $(test_log_OBJECTS) $(test_log_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -277,6 +305,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/string2url_test-string2url_test.Po
+include ./$(DEPDIR)/test_get-test_get.Po
+include ./$(DEPDIR)/test_log-test_log.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -312,6 +342,34 @@ string2url_test-string2url_test.obj: string2url_test.c
 #	source='string2url_test.c' object='string2url_test-string2url_test.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(string2url_test_CFLAGS) $(CFLAGS) -c -o string2url_test-string2url_test.obj `if test -f 'string2url_test.c'; then $(CYGPATH_W) 'string2url_test.c'; else $(CYGPATH_W) '$(srcdir)/string2url_test.c'; fi`
+
+test_get-test_get.o: test_get.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_get_CFLAGS) $(CFLAGS) -MT test_get-test_get.o -MD -MP -MF $(DEPDIR)/test_get-test_get.Tpo -c -o test_get-test_get.o `test -f 'test_get.c' || echo '$(srcdir)/'`test_get.c
+	$(am__mv) $(DEPDIR)/test_get-test_get.Tpo $(DEPDIR)/test_get-test_get.Po
+#	source='test_get.c' object='test_get-test_get.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_get_CFLAGS) $(CFLAGS) -c -o test_get-test_get.o `test -f 'test_get.c' || echo '$(srcdir)/'`test_get.c
+
+test_get-test_get.obj: test_get.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_get_CFLAGS) $(CFLAGS) -MT test_get-test_get.obj -MD -MP -MF $(DEPDIR)/test_get-test_get.Tpo -c -o test_get-test_get.obj `if test -f 'test_get.c'; then $(CYGPATH_W) 'test_get.c'; else $(CYGPATH_W) '$(srcdir)/test_get.c'; fi`
+	$(am__mv) $(DEPDIR)/test_get-test_get.Tpo $(DEPDIR)/test_get-test_get.Po
+#	source='test_get.c' object='test_get-test_get.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_get_CFLAGS) $(CFLAGS) -c -o test_get-test_get.obj `if test -f 'test_get.c'; then $(CYGPATH_W) 'test_get.c'; else $(CYGPATH_W) '$(srcdir)/test_get.c'; fi`
+
+test_log-test_log.o: test_log.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_log_CFLAGS) $(CFLAGS) -MT test_log-test_log.o -MD -MP -MF $(DEPDIR)/test_log-test_log.Tpo -c -o test_log-test_log.o `test -f 'test_log.c' || echo '$(srcdir)/'`test_log.c
+	$(am__mv) $(DEPDIR)/test_log-test_log.Tpo $(DEPDIR)/test_log-test_log.Po
+#	source='test_log.c' object='test_log-test_log.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_log_CFLAGS) $(CFLAGS) -c -o test_log-test_log.o `test -f 'test_log.c' || echo '$(srcdir)/'`test_log.c
+
+test_log-test_log.obj: test_log.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_log_CFLAGS) $(CFLAGS) -MT test_log-test_log.obj -MD -MP -MF $(DEPDIR)/test_log-test_log.Tpo -c -o test_log-test_log.obj `if test -f 'test_log.c'; then $(CYGPATH_W) 'test_log.c'; else $(CYGPATH_W) '$(srcdir)/test_log.c'; fi`
+	$(am__mv) $(DEPDIR)/test_log-test_log.Tpo $(DEPDIR)/test_log-test_log.Po
+#	source='test_log.c' object='test_log-test_log.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_log_CFLAGS) $(CFLAGS) -c -o test_log-test_log.obj `if test -f 'test_log.c'; then $(CYGPATH_W) 'test_log.c'; else $(CYGPATH_W) '$(srcdir)/test_log.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

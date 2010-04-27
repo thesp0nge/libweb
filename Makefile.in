@@ -79,7 +79,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libweb_la_LIBADD =
-am_libweb_la_OBJECTS = libweb.lo get.lo commons.lo
+am_libweb_la_OBJECTS = libweb.lo get.lo commons.lo log.lo
 libweb_la_OBJECTS = $(am_libweb_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_libweb_test_OBJECTS = libweb_test.$(OBJEXT)
@@ -195,6 +195,7 @@ build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
+debug_defs = @debug_defs@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
@@ -229,7 +230,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = libweb.la
-libweb_la_SOURCES = libweb.c get.c commons.c libweb.h
+libweb_la_SOURCES = libweb.c get.c commons.c log.c libweb.h log.h
 libweb_la_CCFLAGS = -shared
 libweb_test_SOURCES = libweb_test.c
 libweb_test_LDFLAGS = -lweb
@@ -379,6 +380,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libweb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libweb_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS=-I m4
 lib_LTLIBRARIES=libweb.la
-libweb_la_SOURCES=libweb.c get.c commons.c libweb.h
+libweb_la_SOURCES=libweb.c get.c commons.c log.c libweb.h log.h
 libweb_la_CCFLAGS=-shared
 
 bin_PROGRAMS=libweb_test

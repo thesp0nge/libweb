@@ -8,9 +8,14 @@
 #define BUFFER_RESPONSE		524288
 #define BUFFER_LINE_SIZE	80
 
+// if REJECT_NONWEB_PROTOCOLS is defined, an URI with a protocol
+// different than both http then https will be rejected
+#define REJECT_NONWEB_PROTOCOLS
 
 #define HTTP_OK				200
 #define HTTP_MISSING		404
+
+#define GET_TIMEOUT			5 // seconds
 
 typedef struct hr {
 	int code;
@@ -34,7 +39,7 @@ static int known_port[]={80, 8080, 8008, 8009, 8010};
 static int last_http_code;
 
 // high level APIs
-http_response *web_get(char *url);
+http_response *web_get(char *urlstr);
 
 url *string2url(char *urlstring);
 

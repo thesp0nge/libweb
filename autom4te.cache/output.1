@@ -748,6 +748,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIB@&t@OBJS
+debug_defs
 CPP
 OTOOL64
 OTOOL
@@ -863,6 +864,7 @@ with_pic
 enable_fast_install
 with_gnu_ld
 enable_libtool_lock
+enable_debug
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1499,6 +1501,7 @@ Optional Features:
   --enable-fast-install@<:@=PKGS@:>@ 
                           optimize for fast installation @<:@default=yes@:>@
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-debug          Enable debug features (default: no)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2287,6 +2290,9 @@ $as_echo "$as_me: creating cache $cache_file" >&6;}
   >$cache_file
 fi
 
+as_fn_append ac_func_list " assert"
+as_fn_append ac_func_list " ctime"
+as_fn_append ac_func_list " time"
 as_fn_append ac_func_list " inet_aton"
 as_fn_append ac_func_list " connect"
 as_fn_append ac_func_list " strstr"
@@ -10589,7 +10595,7 @@ CC="$lt_save_CC"
 # Checks for libraries.
 
 # Checks for header files.
-for ac_header in netdb.h errno.h stdlib.h sys/socket.h string.h
+for ac_header in netdb.h errno.h stdlib.h sys/socket.h string.h time.h assert.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -10648,6 +10654,32 @@ done
 
 
 
+
+
+
+
+
+
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for --enable-debug" >&5
+$as_echo_n "checking for --enable-debug... " >&6; }
+@%:@ Check whether --enable-debug was given.
+if test "${enable_debug+set}" = set; then :
+  enableval=$enable_debug; 
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+  debug_defs="-DDEBUG -DMCC_DEBUG"
+
+else
+  
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+  debug_defs=""
+
+fi
 
 
 

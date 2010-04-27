@@ -29,8 +29,13 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include <errno.h>
 #include "libweb.h"
+#include "log.h"
 
 /*
  * Sends an HTTP GET request and wait for a response.
@@ -38,23 +43,23 @@
  * @param url the url we want to retrieve
  * @return the HTTP response from the web server or NULL if an error occured.
  */
-http_response *web_get(char *url) {
+http_response *web_get(char *urlstr) {
 	http_response *ret;
 	url *__url;
 	int sd, rb;
 	char *buffer;
 	
-	if (url == NULL) {
+	if (urlstr == NULL) {
 		fprintf(stderr, "%s: NULL pointer dereference detected. Giving up.\n", __FUNCTION__);
 		return NULL;
 	}
 	
-	if ( (__url = string2url(url)) == NULL ) {
-		fprintf(stderr, "%s: invalid url (\"%s\")", __FUNCTION__, url);
+	if ( (__url = string2url(urlstr)) == NULL ) {
+		fprintf(stderr, "%s: invalid url (\"%s\")", __FUNCTION__, urlstr);
 		return NULL;
 	}
 	
-	sd = web_client(__url->website, __url->proto);
+	sd = web_client(__url->website, __url->port);
 	if (sd < 0) {
 		fprintf(stderr, "%s: can't communicate with %s\n", __FUNCTION__, __url->website);
 		return NULL;
@@ -66,7 +71,16 @@ http_response *web_get(char *url) {
 	
 	// get at least BUFFER_RESPONSE bytes
 	buffer = malloc(BUFFER_RESPONSE);
+	if (buffer == NULL) {
+		fprintf(stderr, "%s: aiee, a malloc() error here (%s)", __FUNCTION__, strerror(errno));
+		return NULL;
+	}
+	
 	memset(buffer, 0, BUFFER_RESPONSE);
 	rb = web_recv(sd, buffer, BUFFER_RESPONSE, GET_TIMEOUT);
+	ret = malloc(sizeof(http_response));
+	
+	debug(buffer);
+	strcpy(ret->response, buffer);
 	return ret;
 }

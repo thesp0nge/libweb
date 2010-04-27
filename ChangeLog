@@ -1,3 +1,19 @@
+2010-04-26 Paolo Perego <thesp0nge@gmail.com>
+
+* log.c (debug): I finally got rid of an unwanted SEGFAULT. man ctime_r is the answer.
+* README.textile: improved project information
+
+2010-04-23 Paolo Perego <thesp0nge@gmail.com>
+
+* test/test_get.c (none): create a test case for web_get()
+* log.c (none): created a small logging facility. VERY BASIC
+
+2010-04-16 Paolo Perego <thesp0nge@gmail.com>
+
+* commons.c (string2url): routine is almost complete with some tests performed.
+* get.c (web_get): first implementation
+* commons.h (none): removed
+
 2010-04-15 Paolo Perego <thesp0nge@gmail.com>
 
 * test/ (none): created test directory

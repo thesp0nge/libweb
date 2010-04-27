@@ -15,12 +15,25 @@ AC_PROG_LIBTOOL
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([netdb.h errno.h stdlib.h sys/socket.h string.h])
+AC_CHECK_HEADERS([netdb.h errno.h stdlib.h sys/socket.h string.h time.h assert.h])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS_ONCE([inet_aton connect strstr gethostbyname memset select socket strerror])
+AC_CHECK_FUNCS_ONCE([assert ctime time inet_aton connect strstr gethostbyname memset select socket strerror])
+
+
+AC_MSG_CHECKING(for --enable-debug)
+AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [Enable debug features (default: no)]),
+[
+  AC_MSG_RESULT(yes)
+  debug_defs="-DDEBUG -DMCC_DEBUG"
+],
+[
+  AC_MSG_RESULT(no)
+  debug_defs=""
+])
+AC_SUBST([debug_defs])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile test/Makefile])
