@@ -31,7 +31,10 @@ void __string2url(char *urlstring, url *url) {
 		} else {
 			// urlstring = www.website.com/resource
 			memcpy(url->website, urlstring, strlen(urlstring) - strlen(r));
-			strcpy(url->resource, r + (1 * sizeof(char)));
+			if (strlen(r) == 1) 
+				strcpy(url->resource, "/");
+			else
+				strcpy(url->resource, r + (1 * sizeof(char)));
 		}
 		url->port = 80;
 	} else {

@@ -37,7 +37,9 @@
 #include <netdb.h>
 #include <string.h>
 #include <sys/socket.h>
+
 #include "libweb.h"
+#include "log.h"
 
 int web_send(int sd, void *buffer, size_t len)
 {
@@ -190,7 +192,7 @@ int web_helo(int sd, char *buffer, size_t len) {
  * @param buffer the char buffer containing, maybe, an HTTP answer
  * @return the HTTP return code or -1 if something wrong occured
  */
-int web_http_code(char *buffer) 
+int web_http_code(const char *buffer) 
 {
 	char *p = NULL;
 	char *s = NULL;
@@ -210,4 +212,35 @@ int web_http_code(char *buffer)
 	s = p+(9*sizeof(char));
 	strncpy(code_s, s, 3);
 	return atoi(code_s);
+}
+
+/*
+ * Looks in the given buffer for a Server: field and copy it to the http_response parameter.
+ * This information can be used for web server footprinting pourposes.
+ *
+ * @param buffer the char buffer containing, maybe, an HTTP answer
+ * @param hr the http_response variable to be used to store results.
+ * @return 0 if the Server: header has been coped to hr, or -1 otherwise
+ */
+int web_http_server(const char *buffer, http_response *hr) {
+	char *s;
+	char *nl;
+	if (buffer == NULL || hr == NULL) { 
+		fprintf(stderr, "%s(): a NULL memory pointer has been passed as memory pointer. Don't.\n", 
+			__FUNCTION__); 
+		return -1;
+	}
+	
+	s = strstr(buffer, SERVER_HEADER);
+	if (s == NULL) {
+		strcpy(hr->server, NO_SERVER_HEADER);
+		return -1;
+	}
+	// SERVE UNA STRCPY che COPY FINO AD UN CERTO CARATTERE
+	nl = strstr(s+1*sizeof(char), "\n");
+	strncpy(hr->server, s+(strlen(SERVER_HEADER) * sizeof(char)), strlen(s)-strlen(nl));
+	
+	debug(hr->server);
+	printf("---\n");
+	return 0;
 }

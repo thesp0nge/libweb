@@ -1,3 +1,12 @@
+2010-05-11 Paolo Perego <thesp0nge@gmail.com>
+
+* libweb.c (web_http_server): first implementation
+
+2010-05-07 Paolo Perego <thesp0nge@gmail.com>
+
+* commons.c (string2url): if the URL ends with '/' it is not copied into the resource field
+* get.c (web_get): HTML response header parsing
+
 2010-04-26 Paolo Perego <thesp0nge@gmail.com>
 
 * log.c (debug): I finally got rid of an unwanted SEGFAULT. man ctime_r is the answer.

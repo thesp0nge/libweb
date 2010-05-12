@@ -41,17 +41,19 @@
 int main(int argc, char **argv) {
 	http_response *res = NULL;
 	
-	fprintf(stderr, "call web_get() over a non url string...");
-	res = web_get("this is not an url");
-	assert(res==NULL);
-	
-	fprintf(stderr, "call web_get() over a non reachable url...");
-	res = web_get("http://thisismyfoo.com/a_buggy_url");
-	assert(res==NULL);
 	
 	fprintf(stderr, "call web_get() over existing localhost root...");
 	res = web_get("http://localhost/");
-	assert(res != NULL);
+	
+	if (res == NULL) {
+		fprintf(stderr, "received NULL form server\n");
+		return -1;
+	}
+	fprintf(stdout, "return code is %d\n", res->code);
+	if (!strcmp(res->server, NO_SERVER_HEADER))
+		fprintf(stdout, "server banner is: %s\n", res->server);
+	else 
+		fprintf(stdout, "no server banner\n");
 	fprintf(stdout, "got this from server\n%s\n", res->response);
 	
 	return 0;

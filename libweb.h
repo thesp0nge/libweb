@@ -5,6 +5,8 @@
 #define LIBWEB_TIMEOUT	-2;
 
 #define HELO				"GET / HTTP\\1.0\n\n"
+#define NO_SERVER_HEADER	"(none)"
+#define SERVER_HEADER		"Server: "
 #define BUFFER_RESPONSE		524288
 #define BUFFER_LINE_SIZE	80
 
@@ -19,7 +21,7 @@
 
 typedef struct hr {
 	int code;
-	int rtt; // round trip type - useful for HTTP pinging
+	int rtt; // round trip time - useful for HTTP pinging
 	char date[BUFFER_LINE_SIZE];
 	char server[BUFFER_LINE_SIZE];
 	char response[BUFFER_RESPONSE];
@@ -40,7 +42,6 @@ static int last_http_code;
 
 // high level APIs
 http_response *web_get(char *urlstr);
-
 url *string2url(char *urlstring);
 
 // low level APIs
@@ -48,5 +49,6 @@ int web_client(char *hostname, unsigned int port);
 int web_recv(int sd, void *buffer, size_t len, int to);
 int web_send(int sd, void *buffer, size_t len);
 int web_helo(int sd, char *buffer, size_t len);
-int web_http_code(char *buffer);
+int web_http_code(const char *buffer);
+int web_http_server(const char *buffer, http_response *hr);
 #endif //#ifndef __LIBWEB_H

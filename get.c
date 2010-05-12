@@ -46,8 +46,8 @@
 http_response *web_get(char *urlstr) {
 	http_response *ret;
 	url *__url;
-	int sd, rb;
-	char *buffer;
+	int sd, rb, wb;
+	char *buffer, *get_string;
 	
 	if (urlstr == NULL) {
 		fprintf(stderr, "%s: NULL pointer dereference detected. Giving up.\n", __FUNCTION__);
@@ -55,7 +55,7 @@ http_response *web_get(char *urlstr) {
 	}
 	
 	if ( (__url = string2url(urlstr)) == NULL ) {
-		fprintf(stderr, "%s: invalid url (\"%s\")", __FUNCTION__, urlstr);
+		fprintf(stderr, "%s: invalid url (\"%s\")\n", __FUNCTION__, urlstr);
 		return NULL;
 	}
 	
@@ -64,7 +64,12 @@ http_response *web_get(char *urlstr) {
 		fprintf(stderr, "%s: can't communicate with %s\n", __FUNCTION__, __url->website);
 		return NULL;
 	}
-	if (web_send(sd, __url->resource, strlen(__url->resource)) <0 ) {
+	
+	get_string = malloc(512);
+	memset(get_string, 0, 512);
+	sprintf(get_string, "GET %s HTTP//1.0\n\n", __url->resource);
+	
+	if ( ( wb = web_send(sd, get_string, strlen(get_string))) <0 ) {
 		fprintf(stderr, "%s: can't get %s\n", __FUNCTION__, __url->resource);
 		return NULL;
 	}
@@ -72,15 +77,31 @@ http_response *web_get(char *urlstr) {
 	// get at least BUFFER_RESPONSE bytes
 	buffer = malloc(BUFFER_RESPONSE);
 	if (buffer == NULL) {
-		fprintf(stderr, "%s: aiee, a malloc() error here (%s)", __FUNCTION__, strerror(errno));
+		fprintf(stderr, "%s: aiee, a malloc() error here (%s)\n", __FUNCTION__, strerror(errno));
 		return NULL;
 	}
 	
 	memset(buffer, 0, BUFFER_RESPONSE);
 	rb = web_recv(sd, buffer, BUFFER_RESPONSE, GET_TIMEOUT);
+	if (rb == 0) {
+		fprintf(stderr, "%s: I just read 0 bytes from remote host\n", __FUNCTION__);
+		return NULL;
+	}
+	
+	// preparing return value
 	ret = malloc(sizeof(http_response));
 	
-	debug(buffer);
+	// copying raw http response
 	strcpy(ret->response, buffer);
+	
+	// splitting http return code
+	ret->code = web_http_code(buffer);
+	if (ret->code == -1) {
+		fprintf(stderr, "%s: aiee, invalid response received from web server\n", __FUNCTION__);
+		return NULL;
+	}
+	
+	// extracting server banner if present
+	web_http_server(buffer, ret);
 	return ret;
 }
